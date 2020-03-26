@@ -19,9 +19,9 @@ import microsoft.exchange.webservices.data.property.complex.MessageBody;
 
 public class MailUtils {
 
-    private String mailServer = "outlook.live.com";
-    private String user = "fairytal2020@outlook.com";
-    private String password = "fairytalbzfx2020";
+    private String mailServer;
+    private String user;
+    private String password;
 
     public MailUtils(String mailServer, String user, String password){
         this.mailServer = mailServer;
@@ -33,11 +33,11 @@ public class MailUtils {
      * 发送带附件的mail
      */
     public void doSend(String subject, String[] to, String[] cc, String bodyText, String[] attachmentPath) throws Exception {
-        ExchangeService service = new ExchangeService(ExchangeVersion.Exchange2007_SP1);
+        ExchangeService service = new ExchangeService(ExchangeVersion.Exchange2010_SP2);
         ExchangeCredentials credentials = new WebCredentials(user, password);
         service.setCredentials(credentials);
         try {
-            service.setUrl(new URI(mailServer));
+            service.setUrl(new URI("https://" + mailServer + "/ews/exchange.asmx"));
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
