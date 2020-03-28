@@ -10,11 +10,16 @@ import java.util.Map.Entry;
 
 
 import microsoft.exchange.webservices.data.core.ExchangeService;
+import microsoft.exchange.webservices.data.core.PropertySet;
 import microsoft.exchange.webservices.data.core.enumeration.misc.ExchangeVersion;
 import microsoft.exchange.webservices.data.core.enumeration.notification.EventType;
+import microsoft.exchange.webservices.data.core.enumeration.property.BasePropertySet;
 import microsoft.exchange.webservices.data.core.enumeration.property.BodyType;
 import microsoft.exchange.webservices.data.core.enumeration.property.WellKnownFolderName;
+import microsoft.exchange.webservices.data.core.service.folder.Folder;
 import microsoft.exchange.webservices.data.core.service.item.EmailMessage;
+import microsoft.exchange.webservices.data.core.service.item.Item;
+import microsoft.exchange.webservices.data.core.service.schema.ItemSchema;
 import microsoft.exchange.webservices.data.credential.ExchangeCredentials;
 import microsoft.exchange.webservices.data.credential.WebCredentials;
 import microsoft.exchange.webservices.data.notification.GetEventsResults;
@@ -22,6 +27,8 @@ import microsoft.exchange.webservices.data.notification.ItemEvent;
 import microsoft.exchange.webservices.data.notification.PullSubscription;
 import microsoft.exchange.webservices.data.property.complex.FolderId;
 import microsoft.exchange.webservices.data.property.complex.MessageBody;
+import microsoft.exchange.webservices.data.search.FindItemsResults;
+import microsoft.exchange.webservices.data.search.ItemView;
 
 public class MailUtils {
 
@@ -81,7 +88,7 @@ public class MailUtils {
      * 读取邮件
      */
     public void read() throws Exception {
-        ExchangeService service = new ExchangeService(ExchangeVersion.Exchange2010_SP2);
+        /*ExchangeService service = new ExchangeService(ExchangeVersion.Exchange2010_SP2);
         ExchangeCredentials credentials = new WebCredentials(user, password);
         service.setCredentials(credentials);
         try {
@@ -104,17 +111,33 @@ public class MailUtils {
                     GetEventsResults events = subscription.getEvents();
 
                     for (ItemEvent itemEvent : events.getItemEvents()) {
-                        if (itemEvent.getEventType() == EventType.NewMail) {
-                            EmailMessage message = EmailMessage.bind(service, itemEvent.getItemId());
-                            System.out.println("######## NEW EMAIL SUBJECT IS: " + message.getSubject());
-                            System.out.println("######## NEW EMAIL CONTENT IS: " + message.getBody());
-                        }
+
+                        EmailMessage message = EmailMessage.bind(service, itemEvent.getItemId());
+                        System.out.println("######## NEW EMAIL SUBJECT IS: " + message.getSubject());
+                        System.out.println("######## NEW EMAIL CONTENT IS: " + message.getBody());
+
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
-        }, 0, cacheTime);
+        }, 0, cacheTime);*/
+        ExchangeService service = new ExchangeService(ExchangeVersion.Exchange2010_SP2);
+        ExchangeCredentials credentials = new WebCredentials(user, password , mailServer);
+        service.setCredentials(credentials);
+        service.setUrl(new URI("https://" + mailServer + "/ews/exchange.asmx"));
+        // Bind to the Inbox.
+        Folder inbox = Folder.bind(service , WellKnownFolderName.Inbox);
+        System.out.println(inbox.getDisplayName());
+        ItemView view = new ItemView(10);
+
+        FindItemsResults<Item> findResults = service.findItems(inbox.getId(), view);
+        for (Item item : findResults.getItems()) {
+            EmailMessage message = EmailMessage.bind(service, item.getId());
+            service.loadPropertiesForItems(findResults, PropertySet.FirstClassProperties);
+            System.out.println("Sub -->" + item.getSubject());
+            System.out.println("Con -->" + item.getBody());
+        }
     }
 
 }
