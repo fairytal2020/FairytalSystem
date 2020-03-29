@@ -19,6 +19,10 @@ public abstract class MailContent {
         this.content = content;
     }
 
+    public MailContent(){
+
+    }
+
     public String getId() {
         return id;
     }

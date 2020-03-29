@@ -90,7 +90,7 @@ public class MailUtils {
     /**
      * 读取邮件
      */
-    public void read() throws Exception {
+    public HashMap<ArrayList<String> , ArrayList<String>> read() throws Exception {
         /*ExchangeService service = new ExchangeService(ExchangeVersion.Exchange2010_SP2);
         ExchangeCredentials credentials = new WebCredentials(user, password);
         service.setCredentials(credentials);
@@ -132,18 +132,24 @@ public class MailUtils {
         // Bind to the Inbox.
         Folder inbox = Folder.bind(service , WellKnownFolderName.Inbox);
         System.out.println(inbox.getDisplayName());
-        ItemView view = new ItemView(10000);
+        ItemView view = new ItemView(32767);
 
         FindItemsResults<Item> findResults = service.findItems(inbox.getId(), view);
+        ArrayList<String> subList = new ArrayList<>();
+        ArrayList<String> conList = new ArrayList<>();
         for (Item item : findResults.getItems()) {
             EmailMessage message = EmailMessage.bind(service, item.getId());
             service.loadPropertiesForItems(findResults, PropertySet.FirstClassProperties);
-            System.out.println("Sub -->" + message.getSubject());
-
+            String sub = message.getSubject();
             MessageBody body = message.getBody();
             body.setBodyType(BodyType.HTML);
-            System.out.println("Con -->" + HtmlTool.getContent(body.toString()));
+            String con = HtmlTool.getContent(body.toString());
+            subList.add(sub);
+            conList.add(con);
         }
+        HashMap<ArrayList<String> , ArrayList<String>> map = new HashMap<>();
+        map.put(subList , conList);
+        return map;
     }
 
 
