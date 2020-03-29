@@ -9,6 +9,7 @@ import java.util.*;
 import java.util.Map.Entry;
 
 
+import com.sun.org.apache.xalan.internal.xsltc.trax.OutputSettings;
 import microsoft.exchange.webservices.data.core.ExchangeService;
 import microsoft.exchange.webservices.data.core.PropertySet;
 import microsoft.exchange.webservices.data.core.enumeration.misc.ExchangeVersion;
@@ -29,6 +30,8 @@ import microsoft.exchange.webservices.data.property.complex.FolderId;
 import microsoft.exchange.webservices.data.property.complex.MessageBody;
 import microsoft.exchange.webservices.data.search.FindItemsResults;
 import microsoft.exchange.webservices.data.search.ItemView;
+import org.w3c.dom.Document;
+
 
 public class MailUtils {
 
@@ -129,16 +132,22 @@ public class MailUtils {
         // Bind to the Inbox.
         Folder inbox = Folder.bind(service , WellKnownFolderName.Inbox);
         System.out.println(inbox.getDisplayName());
-        ItemView view = new ItemView(10);
+        ItemView view = new ItemView(10000);
 
         FindItemsResults<Item> findResults = service.findItems(inbox.getId(), view);
         for (Item item : findResults.getItems()) {
             EmailMessage message = EmailMessage.bind(service, item.getId());
             service.loadPropertiesForItems(findResults, PropertySet.FirstClassProperties);
-            System.out.println("Sub -->" + item.getSubject());
-            System.out.println("Con -->" + item.getBody());
+            System.out.println("Sub -->" + message.getSubject());
+
+            MessageBody body = message.getBody();
+            body.setBodyType(BodyType.HTML);
+            System.out.println("Con -->" + HtmlTool.getContent(body.toString()));
         }
     }
+
+
+
 
 }
 
