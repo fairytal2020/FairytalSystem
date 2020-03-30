@@ -54,23 +54,12 @@ public class ApplyFrom extends JFrame {
     /**
      * Launch the application.
      */
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    ApplyFrom frame = new ApplyFrom();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
+
 
     /**
      * Create the frame.
      */
-    public ApplyFrom() {
+    public ApplyFrom(String nameStr , String skillStr , String contactStr , String otherStr) {
         setTitle("FairytalSystem\u529E\u516C\u7CFB\u7EDF--\u52A0\u5165\u7533\u8BF7\u6279\u9605");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 354, 480);
@@ -172,6 +161,10 @@ public class ApplyFrom extends JFrame {
         name.setEditable(false);
         scrollPane.setViewportView(name);
         contentPane.setLayout(gl_contentPane);
+        other.setText(otherStr);
+        contact.setText(contactStr);
+        skill.setText(skillStr);
+        name.setText(nameStr);
     }
 
 }

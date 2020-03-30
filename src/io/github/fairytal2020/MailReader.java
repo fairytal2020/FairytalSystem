@@ -32,7 +32,6 @@
 package io.github.fairytal2020;
 
 import com.google.gson.Gson;
-import microsoft.exchange.webservices.data.notification.GetEventsResults;
 
 import java.util.*;
 
@@ -45,6 +44,7 @@ public class MailReader<T extends MailContent> {
     private String password;
     private MailUtils mailUtils;
     private Class<T> tClass;
+    private ArrayList<T> mailReadied = new ArrayList<>();
     public MailReader(String subject, String id, String mailServer, String user, String password , Class<T> tClass) {
         this.subject = subject;
         this.id = id;
@@ -87,12 +87,17 @@ public class MailReader<T extends MailContent> {
         return listenerList.remove(listener);
     }
 
+    public ArrayList<T> getMailReadied() {
+        return mailReadied;
+    }
+
     public void startReading(int sleep){
         sleep = sleep * 1000;
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
+                Collection<T> mailList = new ArrayList<T>();
                 HashMap<ArrayList<String> , ArrayList<String>> map = null;
                 try {
                     map = mailUtils.read();
@@ -120,13 +125,16 @@ public class MailReader<T extends MailContent> {
                                 } catch (FairytalSystemException e) {
                                     e.printStackTrace();
                                 }
-                                for(MailEventListener<T> li : listenerList){
-                                    li.newListOfEmailArrived(content);
-                                }
+                                mailList.add(content);
                             }
                         }
                     }
                 }
+                mailReadied.addAll(mailList);
+                for(MailEventListener listener : listenerList){
+                    listener.newListOfEmailArrived(mailList);
+                }
+
             }
         }, 0, sleep);
     }

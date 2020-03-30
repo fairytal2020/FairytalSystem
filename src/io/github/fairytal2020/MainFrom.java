@@ -34,20 +34,13 @@ package io.github.fairytal2020;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JLabel;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JTextField;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JList;
-import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 public class MainFrom extends JFrame {
 
@@ -56,23 +49,12 @@ public class MainFrom extends JFrame {
     private JTextField path;
     private JTextField author;
     private JTextField time;
-    JList applyList = new JList();
+    JList applyList = new JList();;
 
     /**
      * Launch the application.
      */
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    MainFrom frame = new MainFrom();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
+
 
     /**
      * Create the frame.
@@ -104,7 +86,34 @@ public class MainFrom extends JFrame {
         watch.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent arg0) {
+                final ApplyFrom[] from = new ApplyFrom[1];
+                int index = applyList.getSelectedIndex();
+                ListModel<String> model= applyList.getModel();
+                String nameSe = model.getElementAt(index);
+                ArrayList<MailJoinInApply> mails = Main.reader.getMailReadied();
+                String skillSe = null;
+                String contactSe = null;
+                String otherSe = null;
+                for(MailJoinInApply apply : mails){
+                    if(apply.getContent("name").equals(nameSe)){
+                        skillSe = apply.getContent("skill");
+                        contactSe = apply.getContent("contact");
+                        otherSe = apply.getContent("other");
+                    }
+                }
+                String finalSkillSe = skillSe;
+                String finalContactSe = contactSe;
+                String finalOtherSe = otherSe;
+                Runnable run = new Runnable() {
 
+                    @Override
+                    public void run() {
+                        from[0] = new ApplyFrom(nameSe , finalSkillSe, finalContactSe, finalOtherSe);
+                        from[0].setVisible(true);
+                    }
+                };
+                Thread t = new Thread(run);
+                t.start();
             }
         });
 
@@ -222,10 +231,60 @@ public class MainFrom extends JFrame {
         );
 
 
+        applyList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         scrollPane_1.setViewportView(applyList);
 
         JTextArea content = new JTextArea();
         scrollPane.setViewportView(content);
         contentPane.setLayout(gl_contentPane);
     }
+
+   /* @Override
+    public JPanel getContentPane() {
+        return contentPane;
+    }
+
+    public void setContentPane(JPanel contentPane) {
+        this.contentPane = contentPane;
+    }
+
+    public JTextField getSubject() {
+        return subject;
+    }
+
+    public void setSubject(JTextField subject) {
+        this.subject = subject;
+    }
+
+    public JTextField getPath() {
+        return path;
+    }
+
+    public void setPath(JTextField path) {
+        this.path = path;
+    }
+
+    public JTextField getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(JTextField author) {
+        this.author = author;
+    }
+
+    public JTextField getTime() {
+        return time;
+    }
+
+    public void setTime(JTextField time) {
+        this.time = time;
+    }
+
+    public JList getApplyList() {
+        return applyList;
+    }
+
+    public void setApplyList(JList applyList) {
+        this.applyList = applyList;
+    }*/
 }
