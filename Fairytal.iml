@@ -28,5 +28,12 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="log4j-api-2.13.0" level="project" />
+    <orderEntry type="library" name="log4j-core-2.13.0" level="project" />
+    <orderEntry type="library" name="log4j-slf4j-impl-2.13.0" level="project" />
+    <orderEntry type="library" name="slf4j-api-1.7.9" level="project" />
+    <orderEntry type="library" name="hutool-captcha-5.2.5" level="project" />
+    <orderEntry type="library" name="hutool-core-5.2.5" level="project" />
+    <orderEntry type="library" name="hutool-crypto-5.2.5" level="project" />
   </component>
 </module>
