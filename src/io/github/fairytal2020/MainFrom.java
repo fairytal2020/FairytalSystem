@@ -94,21 +94,24 @@ public class MainFrom extends JFrame {
                 String skillSe = null;
                 String contactSe = null;
                 String otherSe = null;
+                String sender = null;
                 for(MailJoinInApply apply : mails){
                     if(apply.getContent("name").equals(nameSe)){
                         skillSe = apply.getContent("skill");
                         contactSe = apply.getContent("contact");
                         otherSe = apply.getContent("other");
+                        sender = Main.reader.getSenders().get(mails.indexOf(apply));
                     }
                 }
                 String finalSkillSe = skillSe;
                 String finalContactSe = contactSe;
                 String finalOtherSe = otherSe;
+                String finalSender = sender;
                 Runnable run = new Runnable() {
 
                     @Override
                     public void run() {
-                        from[0] = new ApplyFrom(nameSe , finalSkillSe, finalContactSe, finalOtherSe);
+                        from[0] = new ApplyFrom(nameSe , finalSkillSe, finalContactSe, finalOtherSe , finalSender);
                         from[0].setVisible(true);
                     }
                 };

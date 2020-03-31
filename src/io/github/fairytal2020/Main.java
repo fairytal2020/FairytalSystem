@@ -73,9 +73,6 @@ public class Main implements MailEventListener<MailJoinInApply>{
 
 
     public void go(){
-        reader = new MailReader<>("join in apply" , "7cc50110-e4ed-4c8c-b08c-4cd045a062f8" , "outlook.live.com" , "fairytal2020@outlook.com" , "fairytalbzfx2020" , MailJoinInApply.class);
-        reader.addListener(this);
-        reader.startReading(5);
         Runnable run = new Runnable() {
 
             @Override
@@ -86,6 +83,10 @@ public class Main implements MailEventListener<MailJoinInApply>{
         };
         Thread t = new Thread(run);
         t.start();
+        reader = new MailReader<>("join in apply" , "7cc50110-e4ed-4c8c-b08c-4cd045a062f8" , "outlook.live.com" , "fairytal2020@outlook.com" , "fairytalbzfx2020" , MailJoinInApply.class);
+        reader.addListener(this);
+        reader.startReading(5);
+
     }
 
     public void foo(){
@@ -95,7 +96,7 @@ public class Main implements MailEventListener<MailJoinInApply>{
 
     @Override
     public void newListOfEmailArrived(Collection<MailJoinInApply> mailList) {
-        JList<String> list = from.applyList;
+        JList list = from.applyList;
         Vector<String> ve = new Vector<>();
         for(MailJoinInApply mail : mailList){
             StringBuilder sb = new StringBuilder();

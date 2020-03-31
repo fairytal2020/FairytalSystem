@@ -40,7 +40,7 @@ import java.util.*;
 import java.util.Map.Entry;
 
 
-import com.sun.org.apache.xalan.internal.xsltc.trax.OutputSettings;
+
 import microsoft.exchange.webservices.data.core.ExchangeService;
 import microsoft.exchange.webservices.data.core.PropertySet;
 import microsoft.exchange.webservices.data.core.enumeration.misc.ExchangeVersion;
@@ -121,7 +121,7 @@ public class MailUtils {
     /**
      * 读取邮件
      */
-    public HashMap<ArrayList<String> , ArrayList<String>> read() throws Exception {
+    public ArrayList<EmailMessage> read() throws Exception {
         /*ExchangeService service = new ExchangeService(ExchangeVersion.Exchange2010_SP2);
         ExchangeCredentials credentials = new WebCredentials(user, password);
         service.setCredentials(credentials);
@@ -164,23 +164,24 @@ public class MailUtils {
         Folder inbox = Folder.bind(service , WellKnownFolderName.Inbox);
         System.out.println(inbox.getDisplayName());
         ItemView view = new ItemView(32767);
-
+        ArrayList<EmailMessage> mails = new ArrayList<>();
         FindItemsResults<Item> findResults = service.findItems(inbox.getId(), view);
         ArrayList<String> subList = new ArrayList<>();
         ArrayList<String> conList = new ArrayList<>();
         for (Item item : findResults.getItems()) {
             EmailMessage message = EmailMessage.bind(service, item.getId());
             service.loadPropertiesForItems(findResults, PropertySet.FirstClassProperties);
-            String sub = message.getSubject();
+            /*String sub = message.getSubject();
             MessageBody body = message.getBody();
             body.setBodyType(BodyType.HTML);
             String con = HtmlTool.getContent(body.toString());
             subList.add(sub);
-            conList.add(con);
+            conList.add(con);*/
+            mails.add(message);
         }
-        HashMap<ArrayList<String> , ArrayList<String>> map = new HashMap<>();
-        map.put(subList , conList);
-        return map;
+        /*HashMap<ArrayList<String> , ArrayList<String>> map = new HashMap<>();
+        map.put(subList , conList);*/
+        return mails;
     }
 
 

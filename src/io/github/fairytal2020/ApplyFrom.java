@@ -53,7 +53,7 @@ public class ApplyFrom extends JFrame {
     /**
      * Create the frame.
      */
-    public ApplyFrom(String nameStr , String skillStr , String contactStr , String otherStr) {
+    public ApplyFrom(String nameStr , String skillStr , String contactStr , String otherStr , String sender) {
         setTitle("FairytalSystem\u529E\u516C\u7CFB\u7EDF--\u52A0\u5165\u7533\u8BF7\u6279\u9605");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 354, 480);
@@ -81,6 +81,8 @@ public class ApplyFrom extends JFrame {
         ok.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                MailUtils mail = new MailUtils("outlook.live.com" , "fairytal2020@outlook.com" , "fairytalbzfx2020");
+
             }
         });
 
@@ -88,6 +90,7 @@ public class ApplyFrom extends JFrame {
         notok.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                MailUtils mail = new MailUtils("outlook.live.com" , "fairytal2020@outlook.com" , "fairytalbzfx2020");
             }
         });
         GroupLayout gl_contentPane = new GroupLayout(contentPane);
