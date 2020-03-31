@@ -1,3 +1,4 @@
 language: java
-script: jdk_switcher use oraclejdk8
+script: true
+jdk: openjdk11
 
