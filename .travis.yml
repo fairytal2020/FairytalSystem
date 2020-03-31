@@ -1,3 +1,3 @@
 language: java
 script: true
-jdk: oraclejdk9
+jdk: openjdk11
