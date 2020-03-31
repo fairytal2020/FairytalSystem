@@ -1,3 +1,5 @@
+
+
 /*
  *
  *     FairytalSystem
@@ -29,45 +31,42 @@
  *     联系方式： fairytal2020@outlook.com
  */
 
-plugins {
-    id 'java'
-}
+package io.github.fairytal2020;
 
-group 'coco'
-version '1.0-SNAPSHOT'
 
-sourceCompatibility = 1.8
 
-repositories {
-    mavenCentral()
-}
 
-dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.8.1'
-    compile fileTree(dir:'lib',includes:['*.jar'])
-}
+import java.util.ArrayList;
+import java.util.HashMap;
 
-jar {
-    baseName 'testJar_before_dependencies'
-    from {
-        //添加依懒到打包文件
-        configurations.runtime.collect{zipTree(it)}
+public class MailJoinInApply extends MailContent {
+
+    public MailJoinInApply( MailSubject subject,  HashMap<String, String> content) throws FairytalSystemException {
+        super(subject, content);
+        if(!this.getId().equals("7cc50110-e4ed-4c8c-b08c-4cd045a062f8")){
+            throw new FairytalSystemException("This is not a join in apply");
+        }
     }
-    manifest {
-        attributes 'Main-Class':"io.github.fairytal2020.Main"
+
+    @Override
+    public void verifyContent() throws FairytalSystemException {
+        ArrayList<String> list = new ArrayList<>();
+        list.add(getContent().get("id"));
+        list.add(getContent().get("name"));
+        list.add(getContent().get("skill"));
+        list.add(getContent().get("contact"));
+        list.add(getContent().get("other"));
+        for (String s : list) {
+            if(s == null){
+                throw new FairytalSystemException("Content verify failed");
+            }
+        }
     }
-    exclude('LICENSE.txt', 'NOTICE.txt', 'rootdoc.txt')
 
-    exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
+    @Override
+    public String getContent(String key) {
+        return this.getContent().get(key);
+    }
 
-    exclude 'META-INF/NOTICE', 'META-INF/NOTICE.txt'
 
-    exclude 'META-INF/LICENSE', 'META-INF/LICENSE.txt'
-
-    exclude 'META-INF/DEPENDENCIES'
 }
-
-compileJava.options.encoding = 'UTF-8'
-
-compileTestJava.options.encoding = 'UTF-8'
-

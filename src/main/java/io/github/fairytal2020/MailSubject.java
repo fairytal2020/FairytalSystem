@@ -1,3 +1,5 @@
+
+
 /*
  *
  *     FairytalSystem
@@ -29,45 +31,32 @@
  *     联系方式： fairytal2020@outlook.com
  */
 
-plugins {
-    id 'java'
-}
+package io.github.fairytal2020;
 
-group 'coco'
-version '1.0-SNAPSHOT'
+public class MailSubject {
+    private String subject;
 
-sourceCompatibility = 1.8
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.8.1'
-    compile fileTree(dir:'lib',includes:['*.jar'])
-}
-
-jar {
-    baseName 'testJar_before_dependencies'
-    from {
-        //添加依懒到打包文件
-        configurations.runtime.collect{zipTree(it)}
+    public MailSubject(String subject, String id) {
+        this.subject = subject;
+        this.id = id;
     }
-    manifest {
-        attributes 'Main-Class':"io.github.fairytal2020.Main"
+
+    public String getSubject() {
+        return subject;
     }
-    exclude('LICENSE.txt', 'NOTICE.txt', 'rootdoc.txt')
 
-    exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
 
-    exclude 'META-INF/NOTICE', 'META-INF/NOTICE.txt'
+    public String getId() {
+        return id;
+    }
 
-    exclude 'META-INF/LICENSE', 'META-INF/LICENSE.txt'
+    public void setId(String id) {
+        this.id = id;
+    }
 
-    exclude 'META-INF/DEPENDENCIES'
+    private String id;
+
 }
-
-compileJava.options.encoding = 'UTF-8'
-
-compileTestJava.options.encoding = 'UTF-8'
-

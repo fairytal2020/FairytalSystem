@@ -1,3 +1,5 @@
+
+
 /*
  *
  *     FairytalSystem
@@ -29,45 +31,54 @@
  *     联系方式： fairytal2020@outlook.com
  */
 
-plugins {
-    id 'java'
-}
+package io.github.fairytal2020;
 
-group 'coco'
-version '1.0-SNAPSHOT'
 
-sourceCompatibility = 1.8
 
-repositories {
-    mavenCentral()
-}
 
-dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.8.1'
-    compile fileTree(dir:'lib',includes:['*.jar'])
-}
 
-jar {
-    baseName 'testJar_before_dependencies'
-    from {
-        //添加依懒到打包文件
-        configurations.runtime.collect{zipTree(it)}
+import java.util.HashMap;
+
+public abstract class MailContent {
+    private String id;
+    private MailSubject subject;
+    private HashMap<String , String> content;
+
+    public MailContent( MailSubject subject , HashMap<String , String> content) throws FairytalSystemException{
+        this.subject = subject;
+        this.id = content.get("id");
+        if(!this.id.equals(subject.getId())){
+            throw new FairytalSystemException("Mail ID verify failed");
+        }
+        this.verifyContent();
+        this.content = content;
     }
-    manifest {
-        attributes 'Main-Class':"io.github.fairytal2020.Main"
+
+    public MailContent(){
+
     }
-    exclude('LICENSE.txt', 'NOTICE.txt', 'rootdoc.txt')
 
-    exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
+    public String getId() {
+        return id;
+    }
 
-    exclude 'META-INF/NOTICE', 'META-INF/NOTICE.txt'
+    public MailSubject getSubject() {
+        return subject;
+    }
 
-    exclude 'META-INF/LICENSE', 'META-INF/LICENSE.txt'
+    public HashMap<String, String> getContent() {
+        return content;
+    }
 
-    exclude 'META-INF/DEPENDENCIES'
+    public void verify() throws FairytalSystemException {
+        if(!this.id.equals(subject.getId())){
+            throw new FairytalSystemException("Mail ID verify failed");
+        }
+        this.verifyContent();
+    }
+
+    public abstract void verifyContent() throws FairytalSystemException;
+
+    public abstract String getContent( String key);
+
 }
-
-compileJava.options.encoding = 'UTF-8'
-
-compileTestJava.options.encoding = 'UTF-8'
-

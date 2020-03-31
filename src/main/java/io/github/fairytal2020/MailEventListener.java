@@ -1,3 +1,5 @@
+
+
 /*
  *
  *     FairytalSystem
@@ -29,45 +31,10 @@
  *     联系方式： fairytal2020@outlook.com
  */
 
-plugins {
-    id 'java'
+package io.github.fairytal2020;
+
+import java.util.Collection;
+
+public interface MailEventListener<T extends MailContent> {
+    void newListOfEmailArrived(Collection<T> mailList);
 }
-
-group 'coco'
-version '1.0-SNAPSHOT'
-
-sourceCompatibility = 1.8
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.8.1'
-    compile fileTree(dir:'lib',includes:['*.jar'])
-}
-
-jar {
-    baseName 'testJar_before_dependencies'
-    from {
-        //添加依懒到打包文件
-        configurations.runtime.collect{zipTree(it)}
-    }
-    manifest {
-        attributes 'Main-Class':"io.github.fairytal2020.Main"
-    }
-    exclude('LICENSE.txt', 'NOTICE.txt', 'rootdoc.txt')
-
-    exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
-
-    exclude 'META-INF/NOTICE', 'META-INF/NOTICE.txt'
-
-    exclude 'META-INF/LICENSE', 'META-INF/LICENSE.txt'
-
-    exclude 'META-INF/DEPENDENCIES'
-}
-
-compileJava.options.encoding = 'UTF-8'
-
-compileTestJava.options.encoding = 'UTF-8'
-

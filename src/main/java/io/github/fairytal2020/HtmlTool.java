@@ -1,3 +1,5 @@
+
+
 /*
  *
  *     FairytalSystem
@@ -29,45 +31,50 @@
  *     联系方式： fairytal2020@outlook.com
  */
 
-plugins {
-    id 'java'
-}
+package io.github.fairytal2020;
 
-group 'coco'
-version '1.0-SNAPSHOT'
+import javax.swing.text.html.HTMLEditorKit;
+import javax.swing.text.html.parser.ParserDelegator;
+import java.io.*;
 
-sourceCompatibility = 1.8
 
-repositories {
-    mavenCentral()
-}
+public class HtmlTool extends HTMLEditorKit.ParserCallback {
 
-dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.8.1'
-    compile fileTree(dir:'lib',includes:['*.jar'])
-}
+    private static HtmlTool html2Text = new HtmlTool();
 
-jar {
-    baseName 'testJar_before_dependencies'
-    from {
-        //添加依懒到打包文件
-        configurations.runtime.collect{zipTree(it)}
+    StringBuffer s;
+
+    public HtmlTool() {
     }
-    manifest {
-        attributes 'Main-Class':"io.github.fairytal2020.Main"
+
+    public void parse(String str) throws IOException {
+
+        InputStream iin = new ByteArrayInputStream(str.getBytes());
+        Reader in = new InputStreamReader(iin);
+        s = new StringBuffer();
+        ParserDelegator delegator = new ParserDelegator();
+        // the third parameter is TRUE to ignore charset directive
+        delegator.parse(in, this, Boolean.TRUE);
+        iin.close();
+        in.close();
     }
-    exclude('LICENSE.txt', 'NOTICE.txt', 'rootdoc.txt')
 
-    exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
+    public void handleText(char[] text, int pos) {
+        s.append(text);
+    }
 
-    exclude 'META-INF/NOTICE', 'META-INF/NOTICE.txt'
+    public String getText() {
+        return s.toString();
+    }
 
-    exclude 'META-INF/LICENSE', 'META-INF/LICENSE.txt'
-
-    exclude 'META-INF/DEPENDENCIES'
+    public static String getContent(String str) {
+        try {
+            html2Text.parse(str);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return html2Text.getText();
+    }
 }
-
-compileJava.options.encoding = 'UTF-8'
-
-compileTestJava.options.encoding = 'UTF-8'
 
