@@ -3,6 +3,13 @@ script:
 - ./gradlew build
 - ./gradlew jar
 - ./gradlew test
+- mv -f ./build/libs/FairytalSystem-1.0-SNAPSHOT.jar ./build/Release/FairytalSystem.jar
+deploy:
+  provider: script
+  script: curl https://raw.githubusercontent.com/liesauer/github-release-cli/master/scripts/github-auto-release.sh -L --output github-auto-release.sh && chmod +x github-auto-release.sh && bash ./github-auto-release.sh
+  on:
+    all_branches: true
+    tags: true
 jdk: oraclejdk11
 after_success:
   - bash <(curl -s https://codecov.io/bash)
