@@ -46,9 +46,9 @@ public class Test {
         System.out.println("MailSubject test success");
         MailJsonReader json = new MailJsonReader();
         System.out.println("MailJsonReader test success");
-        MainFrom mform = new MainFrom();
+        //MainFrom mform = new MainFrom();
         System.out.println("MainFrom test success");
-        ApplyFrom afrom = new ApplyFrom("" , "" , "" , "" , "");
+        //ApplyFrom afrom = new ApplyFrom("" , "" , "" , "" , "");
         System.out.println("ApplyFrom test success");
         System.out.println("All test succeed");
     }
