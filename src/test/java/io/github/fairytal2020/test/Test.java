@@ -29,54 +29,27 @@
  *     联系方式： fairytal2020@outlook.com
  */
 
-plugins {
-    id 'java'
+package io.github.fairytal2020.test;
 
-}
+import io.github.fairytal2020.*;
 
-build{
+public class Test {
 
-}
-
-group 'coco'
-version '1.0-SNAPSHOT'
-
-sourceCompatibility = 1.8
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.8.1'
-    compile fileTree(dir:'lib',includes:['*.jar'])
-}
-
-test{
-
-}
-
-jar {
-    baseName 'FairytalSystem'
-    from {
-        //添加依懒到打包文件
-        configurations.runtime.collect{zipTree(it)}
+    @org.junit.Test
+    public void test(){
+        System.out.println("Starting test");
+        MailUtils mail = new MailUtils("" , "" , "");
+        System.out.println("MailUtil test success");
+        MailReader<MailJoinInApply> reader = new MailReader<>("" , "" , "" , "" , "" , MailJoinInApply.class);
+        System.out.println("MailReader test success");
+        MailSubject subject = new MailSubject("" , "");
+        System.out.println("MailSubject test success");
+        MailJsonReader json = new MailJsonReader();
+        System.out.println("MailJsonReader test success");
+        MainFrom mform = new MainFrom();
+        System.out.println("MainFrom test success");
+        ApplyFrom afrom = new ApplyFrom("" , "" , "" , "" , "");
+        System.out.println("ApplyFrom test success");
+        System.out.println("All test succeed");
     }
-    manifest {
-        attributes 'Main-Class':"io.github.fairytal2020.Main"
-    }
-    exclude('LICENSE.txt', 'NOTICE.txt', 'rootdoc.txt')
-
-    exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
-
-    exclude 'META-INF/NOTICE', 'META-INF/NOTICE.txt'
-
-    exclude 'META-INF/LICENSE', 'META-INF/LICENSE.txt'
-
-    exclude 'META-INF/DEPENDENCIES'
 }
-
-compileJava.options.encoding = 'UTF-8'
-
-compileTestJava.options.encoding = 'UTF-8'
-
