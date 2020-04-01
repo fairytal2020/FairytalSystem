@@ -1,5 +1,7 @@
 language: java
-script: true
+script:
+- ./gradlew build
+- ./gradlew jar
 jdk: oraclejdk11
 after_success:
   - bash <(curl -s https://codecov.io/bash)
