@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="io.github.fairytal2020.test.Test" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-04-01T04:22:45" hostname="PC201610191438" time="0.863">
+  <properties/>
+  <testcase name="test" classname="io.github.fairytal2020.test.Test" time="0.863"/>
+  <system-out><![CDATA[Starting test
+MailUtil test success
+MailReader test success
+MailSubject test success
+MailJsonReader test success
+MainFrom test success
+ApplyFrom test success
+All test succeed
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
