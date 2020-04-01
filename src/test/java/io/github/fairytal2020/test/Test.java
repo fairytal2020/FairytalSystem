@@ -36,20 +36,20 @@ import io.github.fairytal2020.*;
 public class Test {
 
     @org.junit.Test
-    public void test(){
+    public void test() throws Exception {
         System.out.println("Starting test");
         MailUtils mail = new MailUtils("" , "" , "");
         System.out.println("MailUtil test success");
-        MailReader<MailJoinInApply> reader = new MailReader<>("" , "" , "" , "" , "" , MailJoinInApply.class);
+        MailReader<MailJoinInApply> reader = new MailReader<>("acb" , "abc" , "abc" , "abc" , "abc" , MailJoinInApply.class);
         System.out.println("MailReader test success");
         MailSubject subject = new MailSubject("" , "");
         System.out.println("MailSubject test success");
         MailJsonReader json = new MailJsonReader();
+        String str = "abcgfdfgdgfdgfdretdef";
+        if(!"gfdfgdgfdgfdret".equals(json.read(str , "abc" , "def"))){
+            throw new Exception();
+        }
         System.out.println("MailJsonReader test success");
-        //MainFrom mform = new MainFrom();
-        System.out.println("MainFrom test success");
-        //ApplyFrom afrom = new ApplyFrom("" , "" , "" , "" , "");
-        System.out.println("ApplyFrom test success");
         System.out.println("All test succeed");
     }
 }

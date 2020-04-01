@@ -34,9 +34,6 @@ plugins {
 
 }
 
-build{
-
-}
 
 group 'coco'
 version '1.0-SNAPSHOT'
@@ -52,9 +49,6 @@ dependencies {
     compile fileTree(dir:'lib',includes:['*.jar'])
 }
 
-test{
-
-}
 
 jar {
     baseName 'FairytalSystem'
