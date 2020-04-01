@@ -81,7 +81,12 @@ public class ApplyFrom extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 MailUtils mail = new MailUtils("outlook.live.com" , "fairytal2020@outlook.com" , "fairytalbzfx2020");
-
+                try {
+                    mail.send("加入申请通知" , new String[]{sender} , null , sender + "：\r\n我们十分愉快的通知您，您的加入申请已经被批准，稍后您将被加入到我们的内部群聊中。\r\n关于我们的更多信息将在稍后的邮件中通知您。\r\nFairytal团队，敬上");
+                    mail.send("关于我们的更多信息" , new String[]{sender} , null , sender + "：\r\n下面是关于我们的更多信息：\r\n1.我们的网站：https://fairytal2020.github.io/blog/\r\n2.我们的邮箱：fairytal2020@outlook.com，密码（请勿泄露）：fairytalbzfx2020\r\n3.我们的内部网站：https://fairytal2020.github.io/StorageVault1/，密码与邮箱相同\r\n4.其他信息请咨询梁伯颜\r\nFairytal团队，敬上");
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         });
 
@@ -90,6 +95,11 @@ public class ApplyFrom extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 MailUtils mail = new MailUtils("outlook.live.com" , "fairytal2020@outlook.com" , "fairytalbzfx2020");
+                try {
+                    mail.send("加入申请通知" , new String[]{sender} , null , sender + "：\r\n十分抱歉，您的加入申请没有被批准。\r\nFairytal团队，敬上");
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         });
         GroupLayout gl_contentPane = new GroupLayout(contentPane);
