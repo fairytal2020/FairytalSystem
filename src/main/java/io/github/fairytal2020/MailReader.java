@@ -173,10 +173,17 @@ public class MailReader<T extends MailContent> {
             }
             body.setBodyType(BodyType.HTML);
             String con = HtmlTool.getContent(body.toString());
-            subList.add(sub);
-            conList.add(con);
+            String json = new MailJsonReader().read(sub , "startsubject" , "endsubject");
+            if(json != null){
+                Gson g = new Gson();
+                MailSubject subj = g.fromJson(json , MailSubject.class);
+                if(subject.equals(subj.getSubject()) && id.equals(subj.getId())){
+                    subList.add(sub);
+                    conList.add(con);
+                }
+            }
             try {
-                senders.add(message.getSender().toString());
+                senders.add(message.getSender().getAddress());
             } catch (ServiceLocalException e) {
                 e.printStackTrace();
             }
