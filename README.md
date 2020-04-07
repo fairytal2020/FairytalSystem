@@ -7,5 +7,7 @@ A tool for fairytal team
 Oracle JDK 1.8.0
 ## IDE
 IntelliJ IDEA 2019.3
+## Gradle
+Gradle 5.2
 ## Libraries
 See lib/
