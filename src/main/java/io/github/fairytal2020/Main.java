@@ -65,8 +65,8 @@ public class Main implements MailEventListener<MailJoinInApply>{
         String j = gson.toJson(join);
         System.out.println(j);*/
         //from = new MainFrom();
-        //new Main().foo();
-        new Main().go();
+        new Main().foo();
+        //new Main().go();
     }
 
 
@@ -85,9 +85,11 @@ public class Main implements MailEventListener<MailJoinInApply>{
     }
 
     public void foo(){
-        from = new MainFrom();
-        from.setVisible(true);
+        LoginFrom login = new LoginFrom();
+        login.setVisible(true);
     }
+
+
 
     @Override
     public void newListOfEmailArrived(Collection<MailJoinInApply> mailList) {

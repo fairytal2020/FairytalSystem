@@ -134,6 +134,7 @@ public class MailReader<T extends MailContent> {
                                     e.printStackTrace();
                                 }
                                 mailList.add(content);
+                                System.out.println("read2");
                             }
                         }
                     }
@@ -141,6 +142,7 @@ public class MailReader<T extends MailContent> {
                 mailReadied.addAll(mailList);
                 for(MailEventListener listener : listenerList){
                     listener.newListOfEmailArrived(mailList);
+                    System.out.println("do");
                 }
 
             }
@@ -187,6 +189,7 @@ public class MailReader<T extends MailContent> {
             } catch (ServiceLocalException e) {
                 e.printStackTrace();
             }
+            System.out.println("read");
         }
         HashMap<ArrayList<String> , ArrayList<String>> map = new HashMap<>();
         map.put(subList , conList);

@@ -48,11 +48,9 @@ public class MainFrom extends JFrame {
     private JTextField path;
     private JTextField author;
     private JTextField time;
-    JList applyList = new JList();;
 
-    /**
-     * Launch the application.
-     */
+    JList applyList = new JList();
+
 
 
     /**
@@ -94,7 +92,7 @@ public class MainFrom extends JFrame {
                 String contactSe = null;
                 String otherSe = null;
                 String sender = null;
-                for(MailJoinInApply apply : mails){
+                            for(MailJoinInApply apply : mails){
                     if(apply.getContent("name").equals(nameSe)){
                         skillSe = apply.getContent("skill");
                         contactSe = apply.getContent("contact");
@@ -145,6 +143,20 @@ public class MainFrom extends JFrame {
         });
 
         JLabel state = new JLabel("\u72B6\u6001\uFF1A");
+        JTextArea content = new JTextArea();
+        JButton btnNewButton = new JButton("\u53D1\u5E03");
+        btnNewButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                MailUtils mail = new MailUtils("outlook.live.com" , "fairytal2020@outlook.com" , "fairytalbzfx2020");
+                try {
+                    mail.send(subject.getText() , new String[]{"fairytal2020-send1@outlook.com"} , null , content.getText());
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+
+            }
+        });
         GroupLayout gl_contentPane = new GroupLayout(contentPane);
         gl_contentPane.setHorizontalGroup(
                 gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -154,14 +166,20 @@ public class MainFrom extends JFrame {
                                         .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
                                                 .addComponent(lblNewLabel)
                                                 .addGroup(gl_contentPane.createSequentialGroup()
-                                                        .addGap(10)
                                                         .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-                                                                .addComponent(lblNewLabel_3)
                                                                 .addGroup(gl_contentPane.createSequentialGroup()
-                                                                        .addComponent(lblNewLabel_2)
-                                                                        .addPreferredGap(ComponentPlacement.RELATED)
-                                                                        .addComponent(subject, GroupLayout.PREFERRED_SIZE, 154, GroupLayout.PREFERRED_SIZE))
-                                                                .addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 194, GroupLayout.PREFERRED_SIZE))
+                                                                        .addGap(10)
+                                                                        .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+                                                                                .addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 194, GroupLayout.PREFERRED_SIZE)
+                                                                                .addComponent(lblNewLabel_3)
+                                                                                .addGroup(gl_contentPane.createSequentialGroup()
+                                                                                        .addComponent(lblNewLabel_2)
+                                                                                        .addPreferredGap(ComponentPlacement.RELATED)
+                                                                                        .addComponent(subject, GroupLayout.PREFERRED_SIZE, 154, GroupLayout.PREFERRED_SIZE))))
+                                                                .addGroup(gl_contentPane.createSequentialGroup()
+                                                                        .addGap(72)
+                                                                        .addComponent(btnNewButton)))
+                                                        .addPreferredGap(ComponentPlacement.RELATED)
                                                         .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
                                                                 .addGroup(gl_contentPane.createSequentialGroup()
                                                                         .addGap(74)
@@ -201,7 +219,7 @@ public class MainFrom extends JFrame {
                                         .addComponent(lblNewLabel)
                                         .addComponent(lblNewLabel_1))
                                 .addPreferredGap(ComponentPlacement.UNRELATED)
-                                .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+                                .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
                                         .addGroup(gl_contentPane.createSequentialGroup()
                                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
                                                         .addComponent(lblNewLabel_2)
@@ -209,12 +227,13 @@ public class MainFrom extends JFrame {
                                                 .addPreferredGap(ComponentPlacement.UNRELATED)
                                                 .addComponent(lblNewLabel_3)
                                                 .addPreferredGap(ComponentPlacement.RELATED)
-                                                .addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 250, GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(gl_contentPane.createSequentialGroup()
-                                                .addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 255, GroupLayout.PREFERRED_SIZE)
-                                                .addGap(18)
-                                                .addComponent(watch)))
+                                                .addComponent(scrollPane))
+                                        .addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 255, GroupLayout.PREFERRED_SIZE))
                                 .addGap(18)
+                                .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+                                        .addComponent(watch)
+                                        .addComponent(btnNewButton))
+                                .addGap(24)
                                 .addComponent(lblNewLabel_4)
                                 .addPreferredGap(ComponentPlacement.UNRELATED)
                                 .addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
@@ -236,10 +255,14 @@ public class MainFrom extends JFrame {
         applyList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         scrollPane_1.setViewportView(applyList);
 
-        JTextArea content = new JTextArea();
+
         scrollPane.setViewportView(content);
         contentPane.setLayout(gl_contentPane);
     }
+}
+
+
+
 
    /* @Override
     public JPanel getContentPane() {
@@ -289,4 +312,4 @@ public class MainFrom extends JFrame {
     public void setApplyList(JList applyList) {
         this.applyList = applyList;
     }*/
-}
+

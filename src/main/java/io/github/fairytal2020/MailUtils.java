@@ -162,6 +162,7 @@ public class MailUtils {
         ExchangeCredentials credentials = new WebCredentials(user, password , mailServer);
         service.setCredentials(credentials);
         service.setUrl(new URI("https://" + mailServer + "/ews/exchange.asmx"));
+        System.out.println("connect");
         // Bind to the Inbox.
         Folder inbox = Folder.bind(service , WellKnownFolderName.Inbox);
         System.out.println(inbox.getDisplayName());
@@ -170,6 +171,7 @@ public class MailUtils {
         FindItemsResults<Item> findResults = service.findItems(inbox.getId(), view);
         ArrayList<String> subList = new ArrayList<>();
         ArrayList<String> conList = new ArrayList<>();
+        System.out.println("get");
         for (Item item : findResults.getItems()) {
             EmailMessage message = EmailMessage.bind(service, item.getId());
             service.loadPropertiesForItems(findResults, PropertySet.FirstClassProperties);
@@ -180,6 +182,7 @@ public class MailUtils {
             subList.add(sub);
             conList.add(con);*/
             mails.add(message);
+            System.out.println("add");
         }
         /*HashMap<ArrayList<String> , ArrayList<String>> map = new HashMap<>();
         map.put(subList , conList);*/
