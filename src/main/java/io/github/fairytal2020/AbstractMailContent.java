@@ -38,13 +38,16 @@ package io.github.fairytal2020;
 
 
 import java.util.HashMap;
-
-public abstract class MailContent {
+/**
+ * @author wangshengkai
+ * @author email:wangshengkai2007_code1@outlook.com
+ */
+public abstract class AbstractMailContent {
     private String id;
     private MailSubject subject;
     private HashMap<String , String> content;
 
-    public MailContent( MailSubject subject , HashMap<String , String> content) throws FairytalSystemException{
+    public AbstractMailContent(MailSubject subject , HashMap<String , String> content) throws FairytalSystemException{
         this.subject = subject;
         this.id = content.get("id");
         if(!this.id.equals(subject.getId())){
@@ -54,7 +57,7 @@ public abstract class MailContent {
         this.content = content;
     }
 
-    public MailContent(){
+    public AbstractMailContent(){
 
     }
 

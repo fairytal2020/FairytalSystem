@@ -40,7 +40,10 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-
+/**
+ * @author wangshengkai
+ * @author email:wangshengkai2007_code1@outlook.com
+ */
 public class MainFrom extends JFrame {
 
     private JPanel contentPane;
@@ -142,7 +145,7 @@ public class MainFrom extends JFrame {
             }
         });
 
-        JLabel state = new JLabel("\u72B6\u6001\uFF1A");
+        JLabel state = new JLabel("其实那些都实现了，只是我太懒，懒得改");
         JTextArea content = new JTextArea();
         JButton btnNewButton = new JButton("\u53D1\u5E03");
         btnNewButton.addMouseListener(new MouseAdapter() {

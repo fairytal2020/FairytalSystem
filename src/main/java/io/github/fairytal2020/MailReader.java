@@ -40,8 +40,11 @@ import microsoft.exchange.webservices.data.core.service.item.EmailMessage;
 import microsoft.exchange.webservices.data.property.complex.MessageBody;
 
 import java.util.*;
-
-public class MailReader<T extends MailContent> {
+/**
+ * @author wangshengkai
+ * @author email:wangshengkai2007_code1@outlook.com
+ */
+public class MailReader<T extends AbstractMailContent> {
     private String subject;
     private String id;
     private ArrayList<MailEventListener<T>> listenerList = new ArrayList<>();

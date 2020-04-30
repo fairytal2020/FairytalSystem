@@ -37,7 +37,10 @@ import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.parser.ParserDelegator;
 import java.io.*;
 
-
+/**
+ * @author wangshengkai
+ * @author email:wangshengkai2007_code1@outlook.com
+ */
 public class HtmlTool extends HTMLEditorKit.ParserCallback {
 
     private static HtmlTool html2Text = new HtmlTool();

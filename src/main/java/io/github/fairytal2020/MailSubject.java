@@ -32,7 +32,10 @@
  */
 
 package io.github.fairytal2020;
-
+/**
+ * @author wangshengkai
+ * @author email:wangshengkai2007_code1@outlook.com
+ */
 public class MailSubject {
     private String subject;
 

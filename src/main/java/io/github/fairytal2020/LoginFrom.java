@@ -43,7 +43,10 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-
+/**
+ * @author wangshengkai
+ * @author email:wangshengkai2007_code1@outlook.com
+ */
 public class LoginFrom extends JFrame {
 
     private ShearCaptcha cap = CaptchaUtil.createShearCaptcha(150, 65, 4, 4);
@@ -53,21 +56,6 @@ public class LoginFrom extends JFrame {
     private JTextField password;
     private JTextField userInuptCaptcha;
 
-    /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    LoginFrom frame = new LoginFrom();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
 
     /**
      * Create the frame.
@@ -105,7 +93,7 @@ public class LoginFrom extends JFrame {
         login.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if(password.getText().equals("fairytalbzfx2020") && cap.verify(userInuptCaptcha.getText())){
+                if("fairytalbzfx2020".equals(password.getText()) && cap.verify(userInuptCaptcha.getText())){
                     setVisible(false);
                     Runnable run = () -> {
                         new Main().go();

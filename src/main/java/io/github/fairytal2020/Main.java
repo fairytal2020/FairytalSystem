@@ -34,15 +34,25 @@
 package io.github.fairytal2020;
 
 
+
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.swing.*;
 import java.util.Collection;
 import java.util.Vector;
-
+/**
+ * @author wangshengkai
+ * @author email:wangshengkai2007_code1@outlook.com
+ */
 public class Main implements MailEventListener<MailJoinInApply>{
     MainFrom from;
+    private static final Logger logger = LoggerFactory.getLogger(Main.class);
     public static MailReader<MailJoinInApply> reader;
     public static void main(String[] args) throws Exception {
-        MailUtils mail = new MailUtils("outlook.live.com" , "fairytal2020@outlook.com" , "fairytalbzfx2020");
+
+        //MailUtils mail = new MailUtils("outlook.live.com" , "fairytal2020@outlook.com" , "fairytalbzfx2020");
 //        mail.send("Hello World" , new String[]{"wangshengkai2007@163.com" } , new String[]{} , "content");
 //        mail.read();
         /*MailSubject sub = new MailSubject("join in apply" , "7cc50110-e4ed-4c8c-b08c-4cd045a062f8");
@@ -65,22 +75,28 @@ public class Main implements MailEventListener<MailJoinInApply>{
         String j = gson.toJson(join);
         System.out.println(j);*/
         //from = new MainFrom();
+        logger.info("Starting app.....");
         new Main().foo();
         //new Main().go();
+
     }
 
 
 
     public void go(){
         Runnable run = () -> {
+            logger.info("Initializing form...");
             from = new MainFrom();
             from.setVisible(true);
+            logger.info("From initialization done.");
         };
         Thread t = new Thread(run);
         t.start();
+        logger.info("Initializing mail reader...");
         reader = new MailReader<>("join in apply" , "7cc50110-e4ed-4c8c-b08c-4cd045a062f8" , "outlook.live.com" , "fairytal2020@outlook.com" , "fairytalbzfx2020" , MailJoinInApply.class);
         reader.addListener(this);
-        reader.startReading(5);
+        reader.startReading(30);
+        logger.info("Mail reader initialization done.");
 
     }
 
@@ -95,6 +111,7 @@ public class Main implements MailEventListener<MailJoinInApply>{
     public void newListOfEmailArrived(Collection<MailJoinInApply> mailList) {
         JList list = from.applyList;
         Vector<String> ve = new Vector<>();
+        logger.info("Processing new email...");
         for(MailJoinInApply mail : mailList){
             StringBuilder sb = new StringBuilder();
             sb.append(mail.getContent("name"));

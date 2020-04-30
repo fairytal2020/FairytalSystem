@@ -38,12 +38,15 @@ package io.github.fairytal2020;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-public class MailJoinInApply extends MailContent {
+/**
+ * @author wangshengkai
+ * @author email:wangshengkai2007_code1@outlook.com
+ */
+public class MailJoinInApply extends AbstractMailContent {
 
     public MailJoinInApply( MailSubject subject,  HashMap<String, String> content) throws FairytalSystemException {
         super(subject, content);
-        if(!this.getId().equals("7cc50110-e4ed-4c8c-b08c-4cd045a062f8")){
+        if(!"7cc50110-e4ed-4c8c-b08c-4cd045a062f8".equals(this.getId())){
             throw new FairytalSystemException("This is not a join in apply");
         }
     }

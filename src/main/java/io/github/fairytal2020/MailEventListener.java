@@ -34,7 +34,10 @@
 package io.github.fairytal2020;
 
 import java.util.Collection;
-
-public interface MailEventListener<T extends MailContent> {
+/**
+ * @author wangshengkai
+ * @author email:wangshengkai2007_code1@outlook.com
+ */
+public interface MailEventListener<T extends AbstractMailContent> {
     void newListOfEmailArrived(Collection<T> mailList);
 }
