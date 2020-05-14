@@ -63,6 +63,8 @@ import microsoft.exchange.webservices.data.property.complex.FolderId;
 import microsoft.exchange.webservices.data.property.complex.MessageBody;
 import microsoft.exchange.webservices.data.search.FindItemsResults;
 import microsoft.exchange.webservices.data.search.ItemView;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 
 /**
@@ -70,7 +72,7 @@ import org.w3c.dom.Document;
  * @author email:wangshengkai2007_code1@outlook.com
  */
 public class MailUtils {
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(MailUtils.class);
     private String mailServer;
     private String user;
     private String password;
@@ -88,17 +90,19 @@ public class MailUtils {
         ExchangeService service = new ExchangeService(ExchangeVersion.Exchange2010_SP2);
         ExchangeCredentials credentials = new WebCredentials(user, password);
         service.setCredentials(credentials);
+        LOGGER.info("Connecting to mail server...");
         try {
             service.setUrl(new URI("https://" + mailServer + "/ews/exchange.asmx"));
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
-
+        LOGGER.info("Connected!");
         EmailMessage msg = new EmailMessage(service);
         msg.setSubject(subject);
         MessageBody body = MessageBody.getMessageBodyFromText(bodyText);
         body.setBodyType(BodyType.HTML);
         msg.setBody(body);
+        LOGGER.info("Sending email...");
         for (String s : to) {
             msg.getToRecipients().add(s);
         }
@@ -114,6 +118,7 @@ public class MailUtils {
 
         }
         msg.send();
+        LOGGER.info("Mail sent!");
     }
 
     /**
@@ -161,20 +166,21 @@ public class MailUtils {
                 }
             }
         }, 0, cacheTime);*/
+        LOGGER.info("Connecting to mail server...");
         ExchangeService service = new ExchangeService(ExchangeVersion.Exchange2010_SP2);
         ExchangeCredentials credentials = new WebCredentials(user, password , mailServer);
         service.setCredentials(credentials);
         service.setUrl(new URI("https://" + mailServer + "/ews/exchange.asmx"));
-        System.out.println("connect");
+        LOGGER.info("Connected!");
         // Bind to the Inbox.
+        LOGGER.info("Binding to inbox...");
         Folder inbox = Folder.bind(service , WellKnownFolderName.Inbox);
-        System.out.println(inbox.getDisplayName());
+
         ItemView view = new ItemView(32767);
         ArrayList<EmailMessage> mails = new ArrayList<>();
         FindItemsResults<Item> findResults = service.findItems(inbox.getId(), view);
-        ArrayList<String> subList = new ArrayList<>();
-        ArrayList<String> conList = new ArrayList<>();
-        System.out.println("get");
+
+        LOGGER.info("Reading mail...");
         for (Item item : findResults.getItems()) {
             EmailMessage message = EmailMessage.bind(service, item.getId());
             service.loadPropertiesForItems(findResults, PropertySet.FirstClassProperties);
@@ -185,8 +191,9 @@ public class MailUtils {
             subList.add(sub);
             conList.add(con);*/
             mails.add(message);
-            System.out.println("add");
+
         }
+        LOGGER.info("Mail reading done!");
         /*HashMap<ArrayList<String> , ArrayList<String>> map = new HashMap<>();
         map.put(subList , conList);*/
         return mails;

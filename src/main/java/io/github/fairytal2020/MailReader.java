@@ -38,6 +38,8 @@ import microsoft.exchange.webservices.data.core.enumeration.property.BodyType;
 import microsoft.exchange.webservices.data.core.exception.service.local.ServiceLocalException;
 import microsoft.exchange.webservices.data.core.service.item.EmailMessage;
 import microsoft.exchange.webservices.data.property.complex.MessageBody;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 /**
@@ -45,6 +47,7 @@ import java.util.*;
  * @author email:wangshengkai2007_code1@outlook.com
  */
 public class MailReader<T extends AbstractMailContent> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(MailReader.class);
     private String subject;
     private String id;
     private ArrayList<MailEventListener<T>> listenerList = new ArrayList<>();
@@ -109,9 +112,11 @@ public class MailReader<T extends AbstractMailContent> {
         sleep = sleep * 1000;
         Timer timer = new Timer();
         HashMap<ArrayList<String> , ArrayList<String>> map = this.readMail();
+        LOGGER.info("Creating timer task...");
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
+                LOGGER.info("Start reading...");
                 Collection<T> mailList = new ArrayList<T>();
 
 
@@ -130,22 +135,26 @@ public class MailReader<T extends AbstractMailContent> {
                             String strCon = con.get(sub.indexOf(str));
                             json = new MailJsonReader().read(strCon , "startcontent" , "endcontent");
                             if(json != null){
+                                LOGGER.info("Find a email.");
                                 T content = g.fromJson(json , tClass);
+
                                 try {
                                     content.verify();
                                 } catch (FairytalSystemException e) {
-                                    e.printStackTrace();
+                                    LOGGER.warn(e.toString());
                                 }
                                 mailList.add(content);
-                                System.out.println("read2");
+
                             }
                         }
                     }
                 }
+                LOGGER.info("Mail reading complete.");
                 mailReadied.addAll(mailList);
+                LOGGER.info("Notifying mail listeners...");
                 for(MailEventListener listener : listenerList){
                     listener.newListOfEmailArrived(mailList);
-                    System.out.println("do");
+
                 }
 
             }
@@ -153,6 +162,7 @@ public class MailReader<T extends AbstractMailContent> {
     }
 
     public HashMap<ArrayList<String> , ArrayList<String>> readMail(){
+        LOGGER.info("Adding mail to mail list...");
         ArrayList<String> subList = new ArrayList<>();
         ArrayList<String> conList = new ArrayList<>();
         ArrayList<EmailMessage> mails = null;
@@ -180,6 +190,7 @@ public class MailReader<T extends AbstractMailContent> {
             String con = HtmlTool.getContent(body.toString());
             String json = new MailJsonReader().read(sub , "startsubject" , "endsubject");
             if(json != null){
+                LOGGER.info("Add a mail to mail list.");
                 Gson g = new Gson();
                 MailSubject subj = g.fromJson(json , MailSubject.class);
                 if(subject.equals(subj.getSubject()) && id.equals(subj.getId())){
@@ -190,9 +201,9 @@ public class MailReader<T extends AbstractMailContent> {
             try {
                 senders.add(message.getSender().getAddress());
             } catch (ServiceLocalException e) {
-                e.printStackTrace();
+                LOGGER.warn(e.toString());
             }
-            System.out.println("read");
+
         }
         HashMap<ArrayList<String> , ArrayList<String>> map = new HashMap<>();
         map.put(subList , conList);

@@ -33,6 +33,10 @@
 
 package io.github.fairytal2020;
 
+import cn.hutool.dfa.WordTree;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout.Alignment;
@@ -45,13 +49,13 @@ import java.util.ArrayList;
  * @author email:wangshengkai2007_code1@outlook.com
  */
 public class MainFrom extends JFrame {
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(MainFrom.class);
     private JPanel contentPane;
     private JTextField subject;
     private JTextField path;
     private JTextField author;
     private JTextField time;
-
+    private WordTree tree = new WordTree();
     JList applyList = new JList();
 
 
@@ -86,10 +90,18 @@ public class MainFrom extends JFrame {
         watch.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent arg0) {
+                LOGGER.info("Initializing apply from...");
                 final ApplyFrom[] from = new ApplyFrom[1];
                 int index = applyList.getSelectedIndex();
                 ListModel<String> model= applyList.getModel();
-                String nameSe = model.getElementAt(index);
+                String nameSe = null;
+                try{
+                    nameSe = model.getElementAt(index);
+                }catch (Exception e){
+                    LOGGER.warn(e.toString());
+                    return;
+                }
+
                 ArrayList<MailJoinInApply> mails = Main.reader.getMailReadied();
                 String skillSe = null;
                 String contactSe = null;
@@ -107,11 +119,12 @@ public class MainFrom extends JFrame {
                 String finalContactSe = contactSe;
                 String finalOtherSe = otherSe;
                 String finalSender = sender;
+                String finalNameSe = nameSe;
                 Runnable run = new Runnable() {
 
                     @Override
                     public void run() {
-                        from[0] = new ApplyFrom(nameSe , finalSkillSe, finalContactSe, finalOtherSe , finalSender);
+                        from[0] = new ApplyFrom(finalNameSe, finalSkillSe, finalContactSe, finalOtherSe , finalSender);
                         from[0].setVisible(true);
                     }
                 };
@@ -151,12 +164,18 @@ public class MainFrom extends JFrame {
         btnNewButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                MailUtils mail = new MailUtils("outlook.live.com" , "fairytal2020@outlook.com" , "fairytalbzfx2020");
-                try {
-                    mail.send(subject.getText() , new String[]{"fairytal2020-send1@outlook.com"} , null , content.getText());
-                } catch (Exception ex) {
-                    ex.printStackTrace();
+                if(tree.isMatch(subject.getText()) || tree.isMatch(content.getText())){
+                    LOGGER.warn("DFA check failed");
+                }else{
+                    LOGGER.info("Publishing...");
+                    MailUtils mail = new MailUtils("outlook.live.com" , "fairytal2020@outlook.com" , "fairytalbzfx2020");
+                    try {
+                        mail.send(subject.getText() , new String[]{"fairytal2020-send1@outlook.com"} , null , content.getText());
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
                 }
+
 
             }
         });
@@ -261,6 +280,7 @@ public class MainFrom extends JFrame {
 
         scrollPane.setViewportView(content);
         contentPane.setLayout(gl_contentPane);
+        tree.addWords("死" , "死马" , "傻" , "傻逼" , "傻吊" , "沙雕");
     }
 }
 

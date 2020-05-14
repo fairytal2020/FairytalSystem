@@ -32,12 +32,18 @@
  */
 
 package io.github.fairytal2020;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author wangshengkai
  * @author email:wangshengkai2007_code1@outlook.com
  */
 public class FairytalSystemException extends Exception {
+    private static final Logger LOGGER = LoggerFactory.getLogger(FairytalSystemException.class);
     public FairytalSystemException(String msg){
         super(msg);
+        LOGGER.info("Thrown a exception.");
     }
 }

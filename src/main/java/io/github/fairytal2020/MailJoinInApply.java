@@ -36,6 +36,9 @@ package io.github.fairytal2020;
 
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 /**
@@ -44,15 +47,19 @@ import java.util.HashMap;
  */
 public class MailJoinInApply extends AbstractMailContent {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(MailJoinInApply.class);
+
     public MailJoinInApply( MailSubject subject,  HashMap<String, String> content) throws FairytalSystemException {
         super(subject, content);
         if(!"7cc50110-e4ed-4c8c-b08c-4cd045a062f8".equals(this.getId())){
+
             throw new FairytalSystemException("This is not a join in apply");
         }
     }
 
     @Override
     public void verifyContent() throws FairytalSystemException {
+        LOGGER.info("Verifying email content...");
         ArrayList<String> list = new ArrayList<>();
         list.add(getContent().get("id"));
         list.add(getContent().get("name"));

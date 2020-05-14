@@ -48,7 +48,7 @@ import java.util.Vector;
  */
 public class Main implements MailEventListener<MailJoinInApply>{
     MainFrom from;
-    private static final Logger logger = LoggerFactory.getLogger(Main.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
     public static MailReader<MailJoinInApply> reader;
     public static void main(String[] args) throws Exception {
 
@@ -75,7 +75,7 @@ public class Main implements MailEventListener<MailJoinInApply>{
         String j = gson.toJson(join);
         System.out.println(j);*/
         //from = new MainFrom();
-        logger.info("Starting app.....");
+        LOGGER.info("Starting app.....");
         new Main().foo();
         //new Main().go();
 
@@ -85,24 +85,26 @@ public class Main implements MailEventListener<MailJoinInApply>{
 
     public void go(){
         Runnable run = () -> {
-            logger.info("Initializing form...");
+            LOGGER.info("Initializing main form...");
             from = new MainFrom();
             from.setVisible(true);
-            logger.info("From initialization done.");
+            LOGGER.info("Main from initialization done.");
         };
         Thread t = new Thread(run);
         t.start();
-        logger.info("Initializing mail reader...");
+        LOGGER.info("Initializing mail reader...");
         reader = new MailReader<>("join in apply" , "7cc50110-e4ed-4c8c-b08c-4cd045a062f8" , "outlook.live.com" , "fairytal2020@outlook.com" , "fairytalbzfx2020" , MailJoinInApply.class);
         reader.addListener(this);
         reader.startReading(30);
-        logger.info("Mail reader initialization done.");
+        LOGGER.info("Mail reader initialization done.");
 
     }
 
     public void foo(){
+        LOGGER.info("Initializing login form...");
         LoginFrom login = new LoginFrom();
         login.setVisible(true);
+        LOGGER.info("Login from initialization done.");
     }
 
 
@@ -111,7 +113,7 @@ public class Main implements MailEventListener<MailJoinInApply>{
     public void newListOfEmailArrived(Collection<MailJoinInApply> mailList) {
         JList list = from.applyList;
         Vector<String> ve = new Vector<>();
-        logger.info("Processing new email...");
+        LOGGER.info("Processing new email...");
         for(MailJoinInApply mail : mailList){
             StringBuilder sb = new StringBuilder();
             sb.append(mail.getContent("name"));

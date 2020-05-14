@@ -33,6 +33,9 @@
 
 package io.github.fairytal2020;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout.Alignment;
@@ -47,6 +50,7 @@ import java.awt.event.MouseEvent;
 public class ApplyFrom extends JFrame {
 
     private JPanel contentPane;
+    private static final Logger LOGGER = LoggerFactory.getLogger(ApplyFrom.class);
 
     /**
      * Launch the application.
@@ -84,6 +88,7 @@ public class ApplyFrom extends JFrame {
         ok.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                LOGGER.info("Sending email...");
                 MailUtils mail = new MailUtils("outlook.live.com" , "fairytal2020@outlook.com" , "fairytalbzfx2020");
                 try {
                     mail.send("加入申请通知" , new String[]{sender} , new String[]{} , sender + "：\r\n我们十分愉快的通知您，您的加入申请已经被批准，稍后您将被加入到我们的内部群聊中。\r\n关于我们的更多信息将在稍后的邮件中通知您。\r\nFairytal团队，敬上");
@@ -98,6 +103,7 @@ public class ApplyFrom extends JFrame {
         notok.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                LOGGER.info("Sending email...");
                 MailUtils mail = new MailUtils("outlook.live.com" , "fairytal2020@outlook.com" , "fairytalbzfx2020");
                 try {
                     mail.send("加入申请通知" , new String[]{sender} , new String[]{} , sender + "：\r\n十分抱歉，您的加入申请没有被批准。\r\nFairytal团队，敬上");
@@ -154,7 +160,7 @@ public class ApplyFrom extends JFrame {
                                         .addComponent(notok))
                                 .addContainerGap(58, Short.MAX_VALUE))
         );
-
+        LOGGER.info("Setting information...");
         JTextArea other = new JTextArea();
         other.setEditable(false);
         scrollPane_3.setViewportView(other);

@@ -32,21 +32,32 @@
  */
 
 package io.github.fairytal2020;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author wangshengkai
  * @author email:wangshengkai2007_code1@outlook.com
  */
 public class MailJsonReader {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MailJsonReader.class);
+
     public String read(String str , String startStr , String endStr){
+        LOGGER.info("Reading...");
         int si = str.indexOf(startStr);
         if(si == -1){
+            LOGGER.warn("Can't find startStr in str!");
             return null;
         }
         si = si + startStr.length();
         int ei = str.indexOf(endStr);
         if(ei == -1){
+            LOGGER.warn("Can't find endStr in str!");
             return null;
         }
         return str.substring(si , ei);
     }
+
 }

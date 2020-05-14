@@ -1,5 +1,6 @@
 
 
+
 /*
  *
  *     FairytalSystem
@@ -33,6 +34,9 @@
 
 package io.github.fairytal2020;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.parser.ParserDelegator;
 import java.io.*;
@@ -45,13 +49,14 @@ public class HtmlTool extends HTMLEditorKit.ParserCallback {
 
     private static HtmlTool html2Text = new HtmlTool();
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(HtmlTool.class);
     StringBuffer s;
 
     public HtmlTool() {
     }
 
     public void parse(String str) throws IOException {
-
+        LOGGER.info("Parsing html text to normal text...");
         InputStream iin = new ByteArrayInputStream(str.getBytes());
         Reader in = new InputStreamReader(iin);
         s = new StringBuffer();
@@ -60,6 +65,7 @@ public class HtmlTool extends HTMLEditorKit.ParserCallback {
         delegator.parse(in, this, Boolean.TRUE);
         iin.close();
         in.close();
+        LOGGER.info("Parse done.");
     }
 
     public void handleText(char[] text, int pos) {
