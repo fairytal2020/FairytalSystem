@@ -158,7 +158,7 @@ public class MainFrom extends JFrame {
             }
         });
 
-        JLabel state = new JLabel("其实那些都实现了，只是我太懒，懒得改");
+        JLabel state = new JLabel("其实公告已经实现了，只是我太懒，懒得改");
         JTextArea content = new JTextArea();
         JButton btnNewButton = new JButton("\u53D1\u5E03");
         btnNewButton.addMouseListener(new MouseAdapter() {
